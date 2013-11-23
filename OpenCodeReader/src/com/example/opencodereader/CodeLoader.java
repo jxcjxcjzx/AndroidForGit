@@ -1,11 +1,15 @@
 package com.example.opencodereader;
 
 import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.widget.TextView;
@@ -21,7 +25,13 @@ public class CodeLoader extends Activity {
 		super.onCreate(savedInstanceState);
 		tv = new TextView(this);		
 		tv.setMovementMethod(ScrollingMovementMethod.getInstance());
-		doRaw();
+		Intent intent = getIntent();
+		try {
+			doRaw(intent.getExtras().getString("FileToDisplay"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		setContentView(tv);
 	}
 
@@ -34,14 +44,20 @@ public class CodeLoader extends Activity {
 	
 	
 	// here are some functions written for loading stream contents from file
-	private void doRaw(){
-		InputStream is = this.getResources().openRawResource(R.raw.mm);
-		try{
-			doRead(is);
+	private void doRaw(String filePath) throws FileNotFoundException{
+		File file = new File(filePath);
+		if(file.exists()){
+			InputStream is = new FileInputStream(file);  
+			try{
+				doRead(is);
+			}
+			catch(IOException e){
+				e.printStackTrace();
+			}
 		}
-		catch(IOException e){
-			e.printStackTrace();
-		}
+		
+		// tell the user the current path
+		CodeLoader.this.setTitle(filePath);
 	}
 	
 	private void doRead(InputStream is) throws IOException{

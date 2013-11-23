@@ -14,6 +14,10 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		// here we can manage several different
+		// source code resposity, as the user
+		// select the set directory, we will 
+		// switch to that directory
 		
 		Intent intent = new Intent(MainActivity.this,GetFileTree.class);
 		startActivity(intent);
