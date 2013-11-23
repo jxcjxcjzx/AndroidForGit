@@ -23,7 +23,6 @@ public class CodeLoader extends Activity {
 		tv.setMovementMethod(ScrollingMovementMethod.getInstance());
 		doRaw();
 		setContentView(tv);
-	
 	}
 
 	@Override
